@@ -1,0 +1,330 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,400;1,500;1,600;1,700&display=swap');
+
+*,
+*::before,
+*::after {
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  height: 100%;
+  width: 100%;
+}
+
+body {
+  height: 100%;
+  width: 100%;
+  font-family: "Montserrat", sans-serif;
+  font-weight: 400;
+}
+
+.modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  background-image: url("./images/splash.png");
+  background-size: cover;
+  background-position: center;
+  z-index: 10;
+}
+
+.main {
+  width: 100%;
+  height: 100%;
+}
+
+.overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%; 
+  background-color: rgba(0,0,0,.4);
+  overflow-x: hidden;
+}
+
+.splash-logo {
+  position: absolute;
+  width: 20rem;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%,-50%);
+}
+
+.container {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.container>img {
+  width: 10rem;
+  margin-left: 3%;
+}
+
+.main-text {
+  color: #fff;
+  font-size: 1.5rem;
+  margin: 0;
+  margin-bottom: .75rem;
+  margin-left: 3%;
+}
+
+.code-text {
+  color: #f2cd33;
+  font-size: 2rem;
+  margin: 0;
+  margin-bottom: .75rem;
+  letter-spacing: 1.5rem;
+  font-family: "Montserrat";
+  font-weight: 600;
+  margin-left: 3%;
+}
+
+.footer {
+  display: flex;
+  align-items: flex-end;
+  margin-bottom: 5%;
+  margin-left: 3%;
+}
+
+.footer>div {
+  background-color: #fff;
+  padding: .35rem;
+}
+
+.footer p {
+  color: #fff;
+  font-size: 1rem;
+  margin: 0;
+  margin-left: 1rem;
+}
+
+.carousel {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+}
+
+.carousel-item {
+  opacity: 0;
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+}
+
+.carousel-item.active {
+  opacity: 1;
+  transition: opacity 1s linear;
+}
+
+.carousel-item.fade {
+  opacity: 0;
+  transition: opacity 1s linear;
+}
+
+.carousel-image {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  background-size: cover;
+  background-position: center;
+}
+
+.text-wrap {
+  margin-left: 3%;
+}
+
+.playlist-wrapper p {
+  font-size: 1.5rem;
+  color: #fff;
+  margin-left: 3%;
+}
+
+.playlist-container {
+  display: flex;
+  justify-content: center;
+  overflow-x: scroll;
+  padding: 2%;
+  padding-left: 3%;
+}
+
+.playlist-container .playlist-item {
+  /* width: 29rem; */
+  height: 16.25rem;
+  margin-right: 2rem;
+  outline: none;
+  transform: scale(1);
+  transition: transform 300ms;
+  transform-origin: center;
+  border: 1px solid #fff;
+  position: relative;
+}
+
+.playlist-item.focus {
+  transform: scale(1.05);
+  border: 2px solid #f2cd33;
+  transition: transform 300ms;
+}
+
+.wrapper .title {
+  font-size: 2rem;
+  font-weight: 600;
+  color: #fff;
+  margin-left: 3%;
+}
+
+.wrapper .length {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: #f2cd33;
+  margin-left: 3%;
+}
+
+.playlist-item img {
+  height: 100%;
+  object-fit: contain;
+}
+
+.player img {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+video {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.player {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  z-index: 8;
+  background: #333;
+}
+
+.controls {
+  display: flex;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: radial-gradient(63.15% 120.46% at 63.15% 91.85%, rgba(32, 46, 57, 0) 72.47%, rgba(32, 46, 57, 0.855) 93.02%);
+  flex-direction: column;
+  justify-content: space-between;
+  z-index: 9;
+}
+
+.controls .playlist-wrapper {
+  padding: 3%;
+}
+
+.controls .control-wrapper {
+  display: flex;
+  justify-content: center;
+}
+
+.control-pad {
+  width: 70%;
+  background: linear-gradient(84.73deg, rgba(32, 46, 57, 0.9) 31.53%, rgba(32, 46, 57, 0.72) 124.15%);
+  display: flex;
+  padding: 2% 3%;
+  align-items: center;
+}
+
+.pause, .play {
+  height: 7.5rem;
+  width: 7.5rem;
+  border-radius: 50%;
+  background: #6F767C;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  outline: none;
+  margin: auto;
+}
+
+.pause img {
+  height: 5rem;
+  width: 5rem;
+}
+
+.play img {
+  height: 5rem;
+  width: 5rem;
+  margin-left: 1rem;
+}
+
+.duration, .shuffle {
+  background: #6F767C;
+  border: none;
+  outline: none;
+  color: #f2cd33;
+  font-size: 1.75rem;
+  padding: 1% 3%;
+  width: 30%;
+  font-family: "Montserrat";
+}
+
+button>span {
+  color: #fff;
+  font-weight: 600;
+}
+
+.select {
+  background: #f2cd33;
+  color: #202E39;
+}
+
+.controls .artist-wrapper {
+  padding: 3%;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  justify-content: flex-end;
+}
+
+.controls .title {
+  font-size: 2rem;
+  font-weight: 600;
+  color: #fff;
+}
+
+.controls .length {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: #f2cd33;
+  margin-left: 3%;
+}
+
+/* Animated items */
+
+#splash, #home, #auth, #player {
+  opacity: 1;
+  transition: opacity 500ms linear;
+}
