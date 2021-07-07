@@ -2,6 +2,13 @@
 
 const global = { target: {}, paused: false, shuffle: false };
 
+function shuffleList(list){
+  const shuffled = list.map((a) => ({sort: Math.random(), value: a}))
+  .sort((a, b) => a.sort - b.sort)
+  .map((a) => a.value);
+  return shuffled;
+}
+
 const types = {
   getOtp: "GENERATE_ACTIVATION_CODE",
   getOtpResp: "GENERATE_ACTIVATION_CODE_RESPONSE",
@@ -17,47 +24,96 @@ const types = {
 function splash(){
   return {
     id: "splash",
-    layout: `
-      <div id="splash" class="modal">
-        <div class="overlay">
-          <img src="images/logo.svg" class="splash-logo" />
-        </div>
-      </div>
-    `
+    layout: () => {
+      const d1 = document.createElement("div");
+      d1.setAttribute("id", "splash");
+      d1.classList.toggle("modal");
+      const d2 = document.createElement("div");
+      d2.classList.toggle("overlay");
+      const img = document.createElement("img");
+      img.setAttribute("src", "images/logo.svg");
+      img.classList.toggle("splash-logo");
+      d2.appendChild(img);
+      d1.appendChild(d2);
+      return d1;
+    }
   }
 }
 
 function auth(props){
   return {
     id: "auth",
-    layout: `
-      <div id="auth" class="main">
-        <div class="overlay">
-          <div class="container">
-            <img src="images/logo.svg" class="main-logo" />
-            <div class="wrapper">
-              <h6 class="main-text">
-                1. Login to your mobile app
-              </h6>
-              <h6 class="main-text">
-                2. Enter the following code
-              </h6>
-              <h6 class="code-text">
-                ${props.otp}
-              </h6>
-            </div>
-            <div class="footer">
-              <div>
-                <img src="images/qr.png" />
-              </div>
-              <p>
-                Scan and download <br /> Apollo mobile app
-              </p
-            </div>
-          </div>
-        </div>
-      </div>
-    `
+    // layout: `
+    //   <div id="auth" class="main">
+    //     <div class="overlay">
+    //       <div class="container">
+    //         <img src="images/logo.svg" class="main-logo" />
+    //         <div class="wrapper">
+    //           <h6 class="main-text">
+    //             1. Login to your mobile app
+    //           </h6>
+    //           <h6 class="main-text">
+    //             2. Enter the following code
+    //           </h6>
+    //           <h6 class="code-text">
+    //             ${props.otp}
+    //           </h6>
+    //         </div>
+    //         <div class="footer">
+    //           <div>
+    //             <img src="images/qr.png" />
+    //           </div>
+    //           <p>
+    //             Scan and download <br /> Apollo mobile app
+    //           </p
+    //         </div>
+    //       </div>
+    //     </div>
+    //   </div>
+    // `
+    layout: () => {
+      const d1 = document.createElement("div");
+      d1.setAttribute("id", "auth");
+      d1.classList.toggle("main");
+      const d2 = document.createElement("div");
+      d2.classList.toggle("overlay");
+      const d3 = document.createElement("div");
+      d3.classList.toggle("container");
+      const img = document.createElement("img");
+      img.setAttribute("src", "images/logo.svg");
+      img.classList.toggle("main-logo");
+      const d4 = document.createElement("div");
+      d4.classList.toggle("wrapper");
+      const h1 = document.createElement("h6");
+      h1.classList.toggle("main-text");
+      h1.innerHTML = "1. Login to your mobile app";
+      const h2 = document.createElement("h6");
+      h2.classList.toggle("main-text");
+      h2.innerHTML = "2. Enter the following code";
+      const h3 = document.createElement("h6");
+      h3.classList.toggle("code-text");
+      h3.innerHTML = props.otp;
+      const d5 = document.createElement("div");
+      d5.classList.toggle("footer");
+      const d6 = document.createElement("div");
+      const qr = document.createElement("img");
+      qr.setAttribute("src", "images/qr.png");
+      const p = document.createElement("p");
+      p.innerHTML = "Scan and download <br /> Apollo mobile app";
+
+      d6.appendChild(qr);
+      d5.appendChild(d6);
+      d5.appendChild(p);
+      d4.appendChild(h1);
+      d4.appendChild(h2);
+      d4.appendChild(h3);
+      d3.appendChild(img);
+      d3.appendChild(d4);
+      d3.appendChild(d5);
+      d2.appendChild(d3);
+      d1.appendChild(d2);
+      return d1;
+    }
   }
 }
 
@@ -69,36 +125,90 @@ function home(props){
 
   return {
     id: "home",
-    layout: `
-      <div id="home" class="main">
-        <div class="overlay">
-          <div class="container">
-            <img src="images/logo.svg" class="main-logo" />
-            <div class="wrapper">
-              ${(props.details)?
-                `<p class="title">${props.details.name}</p>
-                <p class="length">${props.details.count} ITEM${(props.details.count > 1)? "S": ""}</p>
-                `:``
-              }
-            </div>
-            ${(!props.playlists)?
-            `<div class="text-wrap">
-              <p class="main-text">
-                Select a playlist or work to show here...
-              </p>
-            </div>`:
-            `<div class="playlist-wrapper">
-              <p>
-                My Playlists
-              </p> 
-              <div class="playlist-container">
-                ${layout.map(props.playlists.Playlists, (item, i) => (playlistItem({ index: i, item }).layout))}
-              </div>
-            </div>`}
-          </div>
-        </div>
-      </div>
-    `
+    // layout: `
+    //   <div id="home" class="main">
+    //     <div class="overlay">
+    //       <div class="container">
+    //         <img src="images/logo.svg" class="main-logo" />
+    //         <div class="wrapper">
+    //           ${(props.details)?
+    //             `<p class="title">${props.details.name}</p>
+    //             <p class="length">${props.details.count} ITEM${(props.details.count > 1)? "S": ""}</p>
+    //             `:``
+    //           }
+    //         </div>
+    //         ${(!props.playlists)?
+    //         `<div class="text-wrap">
+    //           <p class="main-text">
+    //             Select a playlist or work to show here...
+    //           </p>
+    //         </div>`:
+    //         `<div class="playlist-wrapper">
+    //           <p>
+    //             My Playlists
+    //           </p> 
+    //           <div class="playlist-container">
+    //             ${layout.map(props.playlists.Playlists, (item, i) => (playlistItem({ index: i, item }).layout))}
+    //           </div>
+    //         </div>`}
+    //       </div>
+    //     </div>
+    //   </div>
+    // `
+    layout: () => {
+      const d1 = document.createElement("div");
+      d1.setAttribute("id", "home");
+      d1.classList.toggle("main");
+      const d2 = document.createElement("div");
+      d2.classList.toggle("overlay");
+      const d3 = document.createElement("div");
+      d3.classList.toggle("container");
+      const img = document.createElement("img");
+      img.setAttribute("src", "images/logo.svg");
+      img.classList.toggle("main-logo");
+      d3.appendChild(img);
+      const d4 = document.createElement("div");
+      d3.appendChild(d4);
+      d4.classList.toggle("wrapper");
+      if(props.details){
+        const p1 = document.createElement("p");
+        p1.classList.toggle("title");
+        p1.innerHTML = props.details.name;
+        const p2 = document.createElement("p");
+        p2.classList.toggle("length");
+        p2.innerHTML = `${props.details.count} ITEM${(props.details.count > 1)? "S": ""}`;
+        d4.appendChild(p1);
+        d4.appendChild(p2);
+      }
+      if(!props.playlists){
+        console.log("List", props)
+        const d5 = document.createElement("div");
+        d5.classList.toggle("text-wrap");
+        const p = document.createElement("p");
+        p.innerHTML = "Select a playlist or work to show here...";
+        p.classList.toggle("main-text");
+        d5.appendChild(p);
+        d3.appendChild(d5);
+      } else {
+        const d5 = document.createElement("div");
+        d5.classList.toggle("playlist-wrapper");
+        const p = document.createElement("p");
+        p.innerHTML = "My playlists";
+        const d6 = document.createElement("div");
+        d6.classList.toggle("playlist-container");
+        d5.appendChild(d6);
+        if(Array.isArray(props.playlists.Playlists)){
+          props.playlists.Playlists.forEach((item, i) => {
+            const list = playlistItem({ index: i, item }).layout();
+            d6.appendChild(list);
+          });
+        }
+        d3.appendChild(d5);
+      }
+      d2.appendChild(d3);
+      d1.appendChild(d2);
+      return d1;
+    }
   }
 }
 
@@ -128,15 +238,27 @@ function playlistItem(props){
 
   return {
     id: `playlist-${props.index}`,
-    layout: `
-      <div
-        id="playlist-${props.index}"
-        tabindex="1"
-        class="playlist-item ${(global.target.id === `playlist-${props.index}`)? "focus": ""}"
-      >
-        <img src="${src}" />
-      </div>
-    `
+    // layout: `
+    //   <div
+    //     id="playlist-${props.index}"
+    //     tabindex="1"
+    //     class="playlist-item ${(global.target.id === `playlist-${props.index}`)? "focus": ""}"
+    //   >
+    //     <img src="${src}" />
+    //   </div>
+    // `
+    layout: () => {
+      const d1 = document.createElement("div");
+      d1.classList.add("playlist-item");
+      if(global.target.id === `playlist-${props.index}`){
+        d1.classList.add("focus");
+      }
+      d1.setAttribute("id", `playlist-${props.index}`);
+      const img = document.createElement("img");
+      img.setAttribute("src", src);
+      d1.appendChild(img);
+      return d1;
+    }
   }
 }
 
@@ -156,21 +278,29 @@ function player(props){
 
   return {
     id: "player",
-    layout: `
-      <div id="player" class="player">
-        ${(type === "image")? `
-        <img src="${props.playlist.ArtFile.FileURL}" />
-        `:`
-        <video autoplay loop id="video">
-          <source src="${props.playlist.ArtFile.FileURL}" type="video/mp4" />
-        </video>
-        `}
-      </div>
-    `
+    layout: () => {
+      const div1 = document.createElement("div");
+      div1.setAttribute("id", "player");
+      div1.classList.add("player");
+      const inner = document.createElement((type === "image")? "img": "video");
+      if(type === "image"){
+        inner.setAttribute("src", props.playlist.ArtFile.FileURL);
+      } else {
+        inner.setAttribute("autoplay", true);
+        inner.setAttribute("id", "video");
+        inner.setAttribute("loop", true);
+        const source = document.createElement("source");
+        source.setAttribute("src", props.playlist.ArtFile.FileURL);
+        inner.appendChild(source);
+      }
+      div1.appendChild(inner);
+      return div1;
+    }
   }
 }
 
 function controls(props){
+  console.log("PROPS", props)
 
   if(!props){
     return {
@@ -191,41 +321,104 @@ function controls(props){
 
   return {
     id: "controls",
-    layout: `
-      <div id="controls" class="controls">
-        <div class="playlist-wrapper">
-          <p class="title">
-            ${props.current.Name}
-          </p>
-          <p class="length">
-            ${props.current.PlaylistItems.length} ITEMS
-          </p>
-        </div>
-        <div class="control-wrapper">
-          <div class="control-pad">
-            <button class="duration ${(global.controlIndex === 0)? "select": ""}" id="control-0">
-              Duration
-              <span>1H: 30M</span>
-            </button>
-            <button class="${global.paused? "play": "pause"} ${(global.controlIndex === 1)? "select": ""}" id="control-1">
-              <img class="play-icon" src="${global.paused? "images/play.svg": "images/pause.svg"}" />
-            </button>
-            <button class="shuffle ${(global.controlIndex === 2)? "select": ""}" id="control-2">
-              Shuffle
-              <span>${global.shuffle? "ON": "OFF"}</span>
-            </button>
-          </div>
-        </div>
-        <div class="artist-wrapper">
-        <p class="main-text">
-          ${artist}
-        </p>
-        <p class="main-text">
-          ${work}
-        </p>
-        </div>
-      </div>
-    `
+    // layouts: `
+    //   <div id="controls" class="controls">
+    //     <div class="playlist-wrapper">
+    //       <p class="title">
+    //         ${props.current.Name}
+    //       </p>
+    //       <p class="length">
+    //         ${props.current.PlaylistItems.length} ITEMS
+    //       </p>
+    //     </div>
+    //     <div class="control-wrapper">
+    //       <div class="control-pad">
+    //         <button class="duration ${(global.controlIndex === 0)? "select": ""}" id="control-0">
+    //           Duration
+    //           <span>1H: 30M</span>
+    //         </button>
+    //         <button class="${global.paused? "play": "pause"} ${(global.controlIndex === 1)? "select": ""}" id="control-1">
+    //           <img class="play-icon" src="${global.paused? "images/play.svg": "images/pause.svg"}" />
+    //         </button>
+    //         <button class="shuffle ${(global.controlIndex === 2)? "select": ""}" id="control-2">
+    //           Shuffle
+    //           <span>${global.shuffle? "ON": "OFF"}</span>
+    //         </button>
+    //       </div>
+    //     </div>
+    //     <div class="artist-wrapper">
+      //     <p class="main-text">
+      //       ${artist}
+      //     </p>
+      //     <p class="main-text">
+      //       ${work}
+      //     </p>
+    //     </div>
+    //   </div>
+    // `
+    layout: () => {
+      const d1 = document.createElement("div");
+      d1.setAttribute("id", "controls");
+      d1.classList.toggle("controls");
+      const d2 = document.createElement("div");
+      d2.classList.toggle("playlist-wrapper");
+      const p1 = document.createElement("p");
+      p1.classList.add("title");
+      p1.innerHTML = props.current.Name;
+      const p2 = document.createElement("p");
+      p2.classList.add("length");
+      p2.innerHTML = `${props.current.PlaylistItems.length} ITEMS`;
+      d2.appendChild(p1);
+      d2.appendChild(p2);
+      d1.appendChild(d2);
+      const d3 = document.createElement("div");
+      d3.classList.toggle("control-wrapper");
+      const d4 = document.createElement("div");
+      d4.classList.toggle("control-pad");
+      d3.appendChild(d4);
+      const b1 = document.createElement("button");
+      b1.setAttribute("id", "control-0");
+      b1.classList.add("duration");
+      if(global.controlIndex === 0){
+        b1.classList.add("select");
+      }
+      b1.innerHTML = "<span>1H: 30M</span>";
+      const b2 = document.createElement("button");
+      b2.setAttribute("id", "control-1");
+      b2.classList.add(global.paused? "play": "pause");
+      if(global.controlIndex === 1){
+        b2.classList.add("select");
+      }
+      const icon = document.createElement("img");
+      icon.classList.add("play-icon");
+      const src = global.paused? "images/play.svg": "images/pause.svg";
+      icon.setAttribute("src", src);
+      b2.appendChild(icon);
+      const b3 = document.createElement("button");
+      b3.setAttribute("id", "control-2");
+      b3.classList.add("shuffle");
+      if(global.controlIndex === 2){
+        b3.classList.add("select");
+      }
+      b3.innerHTML = `<span>${global.shuffle? "ON": "OFF"}</span>`;
+      d4.appendChild(b1);
+      d4.appendChild(b2);
+      d4.appendChild(b3);
+      const d5 = document.createElement("div");
+      d5.classList.toggle("artist-wrapper");
+      const p3 = document.createElement("p");
+      p3.classList.add("main-text");
+      p3.innerHTML = artist;
+      const p4 = document.createElement("p");
+      p4.classList.add("main-text");
+      p4.innerHTML = work;
+      d5.appendChild(p3);
+      d5.appendChild(p4);
+      d1.appendChild(d2);
+      d1.appendChild(d3);
+      d1.appendChild(d5);
+      return d1;
+    }
   }
 }
 
@@ -324,7 +517,7 @@ class Renderer{
   }
 
   onMount(){
-    this.render(splash());
+    this.mount(splash());
   }
 
   getComponent(component){
@@ -361,6 +554,15 @@ class Renderer{
         this.root.removeChild(removableItem);
       // }, 500);
     }
+  }
+
+  mount(component){
+    const oldNode = this.getComponent(component);
+    if(oldNode){
+      oldNode.remove();
+    }
+    const newNode = component.layout();
+    this.root.appendChild(newNode);
   }
 
   map(arr, cb){
@@ -416,7 +618,7 @@ class Api{
     console.log("socket connected");
     if(storage.fetch("user").auth){
       layout.unmount(splash());
-      layout.render(home({ refresh: true }));
+      layout.mount(home({ refresh: true }));
       navigation.navigate("home");
       return;
     }
@@ -434,18 +636,18 @@ class Api{
       switch(resp.Type){
         case types.getOtpResp:
           layout.unmount(splash());
-          layout.render(auth({ otp: resp.Body }), true);
+          layout.mount(auth({ otp: resp.Body }), true);
           navigation.navigate("auth");
           break;
         case types.deviceActivationResp:
           storage.update("user", { auth: true });
           layout.unmount(auth({}));
-          layout.render(home({ refresh: true }), true);
+          layout.mount(home({ refresh: true }), true);
           navigation.navigate("home");
           break;
         case types.getPlaylistResp:
           const data = JSON.parse(resp.Body);
-          layout.render(home({ playlists: data }));
+          layout.mount(home({ playlists: data }));
           storage.update("playlists", data);
           setupPlaylistListeners();
           break;
@@ -580,7 +782,7 @@ function focusListener(e){
     const index = Number(e.id.split("-")[1]);
     const selected = lib.Playlists[index];
     storage.update("chosen", selected);
-    layout.render(home({ playlists: lib, details: { name: selected.Name, count: selected.PlaylistItems.length } }));
+    layout.mount(home({ playlists: lib, details: { name: selected.Name, count: selected.PlaylistItems.length } }));
   }
 }
 
@@ -599,7 +801,7 @@ function clickListner(e){
       } else {
         const playlist = storage.fetch("chosen");
         global.controlIndex = 0;
-        layout.add(controls({current: playlist}));
+        layout.mount(controls({current: playlist}));
       }
     }
   }
@@ -684,7 +886,7 @@ function startPlaylist(playlist){
   if(layout.getComponent(player({}))){
     layout.unmount(player({}));
   }
-  layout.add(player({ playlist: item.Works[0] }));
+  layout.mount(player({ playlist: item.Works[0] }));
   navigation.navigate("player");
   idx += 1;
   if(playlist.PlaylistItems.length > 1){
@@ -695,11 +897,11 @@ function startPlaylist(playlist){
         const newItem = playlist.PlaylistItems[idx];
         console.log("n id", playlist)
         layout.unmount(player({}));
-        layout.add(player({ playlist: newItem.Works[0] }));
-        layout.rerender(controls({current: playlist}));
+        layout.mount(player({ playlist: newItem.Works[0] }));
+        layout.mount(controls({current: playlist}));
         idx = nextIndex;
       }
-    }, 10000);
+    }, 30000);
     global.playlistTimer = interval;
   }
 }
@@ -724,11 +926,17 @@ function handleSelect(type){
             video.pause();
             image.setAttribute("src", "images/play.svg");
           }
+        } else {
+          if(!global.paused){
+            image.setAttribute("src", "images/pause.svg");
+          } else {
+            image.setAttribute("src", "images/play.svg");
+          }
         }
       });
       break;
     case "control-2":
-      console.log("shuffle");
+      console.log("shuffle", shuffleList(storage.get()));
       break;
   }
 }
